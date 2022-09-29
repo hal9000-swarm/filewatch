@@ -440,7 +440,6 @@ namespace filewatch {
 			{
 				throw std::system_error(errno, std::system_category());
 			}
-			const auto listen_filters = _listen_filters;
 
 			_watching_single_file = is_file(path);
 
@@ -457,7 +456,7 @@ namespace filewatch {
 				}
 			}();
 
-			const auto watch = inotify_add_watch(folder, watch_path.c_str(), listen_filters);
+			const auto watch = inotify_add_watch(folder, watch_path.c_str(), IN_CLOSE_WRITE | IN_CREATE | IN_DELETE);
 			if (watch < 0) 
 			{
 				throw std::system_error(errno, std::system_category());
